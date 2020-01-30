@@ -122,6 +122,7 @@ function put(key, value, timeout, callback) {
   if ( !['string', 'number', 'boolean'].includes(typeof key) ) {
     throw new TypeError(`key can be only: string | number | boolean instead of ${typeof key}`);
   }
+
   // check if key is not NaN
   if (typeof key === 'number' && isNaN(key)) {
     throw new TypeError('key can be only: string | number | boolean instead of NaN');
@@ -133,7 +134,7 @@ function put(key, value, timeout, callback) {
   }
 
   // callback type is incorrect
-  if (callback !== undefined && typeof callback !== 'function') {
+  if ( !isUndefined(callback) && typeof callback !== 'function') {
     throw new TypeError(`callback should be function instead of ${typeof callback}`);
   }
 
@@ -145,7 +146,7 @@ function put(key, value, timeout, callback) {
   cache.set(key, value);
 
   // return Promise
-  if (timeout !== undefined && callback === undefined) {
+  if ( !isUndefined(timeout) && isUndefined(callback)) {
     return new Promise((resolve, reject) => {
       const t = setTimeout(() => {
         if (cache.delete(key)) {
@@ -159,7 +160,7 @@ function put(key, value, timeout, callback) {
   }
 
   // execute callback
-  if (timeout !== undefined && callback !== undefined) {
+  if ( !isUndefined(timeout) && !isUndefined(callback)) {
     const t = setTimeout(() => {
       if (cache.delete(key)) {
         callback(null, key, value, timeout);
