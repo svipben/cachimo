@@ -89,6 +89,15 @@ function clear() {
 }
 
 /**
+ * Check if value has type undefined
+ * @param {any} value
+ * @returns {boolean}
+ */
+function isUndefined(value) {
+  return typeof value === 'undefined';
+}
+
+/**
  * Stores an element in-memory with specified key and value.
  *
  * If only `key` and `value` is provided it returns boolean.
@@ -119,7 +128,7 @@ function put(key, value, timeout, callback) {
   }
 
   // timeout type is incorrect and/or timeout is not positive number
-  if (timeout !== undefined && (typeof timeout !== 'number' || isNaN(timeout) || timeout <= 0)) {
+  if ( !(isUndefined(timeout) || Number.isFinite(timeout)) || timeout <= 0 ) {
     throw new TypeError('timeout should be positive number');
   }
 
