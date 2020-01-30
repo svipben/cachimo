@@ -110,7 +110,7 @@ function clear() {
  */
 function put(key, value, timeout, callback) {
   // key type is incorrect
-  if (typeof key !== 'string' && typeof key !== 'number' && typeof key !== 'boolean') {
+  if ( !['string', 'number', 'boolean'].includes(typeof key) ) {
     throw new TypeError(`key can be only: string | number | boolean instead of ${typeof key}`);
   }
   // check if key is not NaN
